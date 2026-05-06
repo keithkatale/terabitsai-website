@@ -9,26 +9,51 @@ function CalEmbed() {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const win = window as any;
-    if (win.Cal) return;
 
-    const script = document.createElement("script");
-    script.src = "https://app.cal.com/embed/embed.js";
-    script.async = true;
-    script.onload = () => {
-      win.Cal("init", "discoverycall", { origin: "https://app.cal.com" });
-      win.Cal.ns.discoverycall("inline", {
-        elementOrSelector: "#my-cal-inline-discoverycall",
-        config: { layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "dark" },
-        calLink: "keithkatale/discoverycall",
-      });
-      win.Cal.ns.discoverycall("ui", {
-        theme: "dark",
-        cssVarsPerTheme: { dark: { "cal-brand": "#0f0e0e" } },
-        hideEventTypeDetails: false,
-        layout: "month_view",
-      });
-    };
-    document.head.appendChild(script);
+    // Cal.com official bootstrap — sets up queue before script loads
+    (function (C: any, A: string, L: string) {
+      const p = function (a: any, ar: any) { a.q.push(ar); };
+      const d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          const cal = C.Cal;
+          const ar = arguments;
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            d.head.appendChild(d.createElement("script")).src = A;
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api: any = function () { p(api, arguments); };
+            const namespace = ar[1];
+            api.q = api.q || [];
+            if (typeof namespace === "string") {
+              cal.ns[namespace] = cal.ns[namespace] || api;
+              p(cal.ns[namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else p(cal, ar);
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    win.Cal("init", "discoverycall", { origin: "https://app.cal.com" });
+
+    win.Cal.ns.discoverycall("inline", {
+      elementOrSelector: "#my-cal-inline-discoverycall",
+      config: { layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "dark" },
+      calLink: "keithkatale/discoverycall",
+    });
+
+    win.Cal.ns.discoverycall("ui", {
+      theme: "dark",
+      cssVarsPerTheme: { dark: { "cal-brand": "#0f0e0e" } },
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
   }, []);
 
   return (
