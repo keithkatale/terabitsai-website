@@ -1,0 +1,7 @@
+{
+  "displayName": "Terabits AI Website",
+  "projectId": "project-938c4883-348c-4c82-aa4",
+  "cloudRunService": "terabits-ai-website",
+  "region": "us-central1",
+  "serviceUrl": "https://terabits-ai-website-96333434256.us-central1.run.app"
+}
