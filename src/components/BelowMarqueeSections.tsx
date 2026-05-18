@@ -416,7 +416,7 @@ export function BelowMarqueeSections() {
 
       {/* ─── FOOTER ─── */}
       <footer className="border-t border-white/[0.04] bg-[#0a0a0a]">
-        <div className="relative h-[80vh] w-full overflow-hidden">
+        <div className="relative min-h-dvh h-dvh w-full overflow-hidden">
           <img
             src="/PRndqcwxCbSbjj29BueQrof6Qw.png"
             alt=""
@@ -424,8 +424,27 @@ export function BelowMarqueeSections() {
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/80" />
 
-          <div className="absolute inset-x-0 bottom-5 z-20 px-4 sm:px-8">
-            <div className="tb-dock mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 rounded-2xl px-5 py-3.5">
+          <div className="relative z-10 flex h-full flex-col justify-between px-4 py-8 sm:px-8 sm:py-10">
+            <div className="flex flex-1 items-end">
+              <motion.div
+                {...fadeUp}
+                className="flex items-center gap-3 sm:gap-5"
+              >
+                <img
+                  src="/Vector.svg"
+                  alt="TeraBits logo"
+                  className="h-[clamp(3.5rem,12vw,10rem)] w-auto drop-shadow-[0_8px_30px_rgba(225,224,204,0.15)]"
+                />
+                <h2
+                  className="text-[clamp(4rem,15vw,13rem)] font-medium leading-[0.86] tracking-[-0.04em] text-white"
+                  style={{ textShadow: "0 6px 40px rgba(0,0,0,0.7)" }}
+                >
+                  TeraBits
+                </h2>
+              </motion.div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
               <p className="text-xs text-white/45">{footer.copyright}</p>
               <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 {footer.links.map((item) => (
@@ -439,25 +458,6 @@ export function BelowMarqueeSections() {
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="relative z-10 flex h-full items-end px-4 pb-28 sm:px-8 sm:pb-32">
-            <motion.div
-              {...fadeUp}
-              className="flex items-center gap-3 sm:gap-5"
-            >
-              <img
-                src="/Vector.svg"
-                alt="TeraBits logo"
-                className="h-[clamp(3.5rem,12vw,10rem)] w-auto drop-shadow-[0_8px_30px_rgba(225,224,204,0.15)]"
-              />
-              <h2
-                className="text-[clamp(4rem,15vw,13rem)] font-medium leading-[0.86] tracking-[-0.04em] text-white"
-                style={{ textShadow: "0 6px 40px rgba(0,0,0,0.7)" }}
-              >
-                TeraBits
-              </h2>
-            </motion.div>
           </div>
         </div>
       </footer>

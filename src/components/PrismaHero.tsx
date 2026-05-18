@@ -8,9 +8,9 @@ const { nav, hero } = landingCopy;
 
 export function PrismaHero() {
   return (
-    <section className="w-full bg-black px-1 py-1 sm:px-2 sm:py-2">
-      <div className="mx-auto max-w-[99vw]">
-        <div className="relative h-[min(900px,92vh)] min-h-[640px] overflow-hidden rounded-2xl border border-white/10">
+    <section className="min-h-dvh w-full bg-black px-1 py-1 sm:px-2 sm:py-2">
+      <div className="mx-auto h-[calc(100dvh-8px)] max-w-[99vw] sm:h-[calc(100dvh-16px)]">
+        <div className="relative h-full min-h-0 overflow-hidden rounded-2xl border border-white/10">
           <img
             src="/PRndqcwxCbSbjj29BueQrof6Qw.png"
             alt=""
@@ -68,8 +68,8 @@ export function PrismaHero() {
             </div>
           </nav>
 
-          {/* Hero content — anchored to bottom-center, well clear of nav */}
-          <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-end px-4 pb-12 pt-32 text-center sm:pb-16 sm:pt-36">
+          {/* Hero content — centered in full viewport below nav */}
+          <div className="relative z-10 mx-auto flex h-full max-w-3xl flex-col items-center justify-center px-4 pb-10 pt-28 text-center sm:pb-12 sm:pt-32">
             <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -137,28 +137,21 @@ export function PrismaHero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="tb-card mt-9 flex items-stretch overflow-hidden rounded-2xl"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(20,20,20,0.7), rgba(10,10,10,0.55))",
-                backdropFilter: "blur(16px) saturate(1.2)",
-                WebkitBackdropFilter: "blur(16px) saturate(1.2)",
-              }}
+              className="mt-6 flex items-center overflow-hidden rounded-full border border-white/10 bg-black/35 px-1 py-0.5 backdrop-blur-md"
             >
               {hero.proof.map((stat, i) => (
                 <div key={stat.label} className="flex items-center">
                   {i > 0 && (
                     <div
-                      className="my-2 hidden w-px bg-white/10 sm:block"
-                      style={{ height: "32px" }}
+                      className="mx-0.5 hidden h-5 w-px bg-white/12 sm:block"
                       aria-hidden
                     />
                   )}
-                  <div className="flex flex-col items-center px-4 py-2.5 sm:px-6">
-                    <span className="text-[20px] font-medium tracking-[-0.02em] text-white sm:text-[22px]">
+                  <div className="flex flex-col items-center px-2.5 py-1 sm:px-3.5">
+                    <span className="text-[13px] font-semibold tracking-[-0.02em] text-white sm:text-sm">
                       {stat.value}
                     </span>
-                    <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/50 sm:text-[10px]">
+                    <span className="mt-px max-w-[88px] text-center text-[7px] font-medium uppercase leading-tight tracking-[0.08em] text-white/45 sm:max-w-none sm:text-[8px]">
                       {stat.label}
                     </span>
                   </div>
