@@ -21,9 +21,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "TeraBits",
+  title: "TeraBits AI — Your AI Operations Assistant",
   description:
-    "AI agents that streamline business operations, supercharge productivity, and boost efficiency by up to 5,500%.",
+    "TeraBits gives you an AI operations assistant that works through your software autonomously — all day, every day. Brief it in the morning. It handles the rest.",
   icons: {
     icon: "/logo-terabits.png",
     shortcut: "/logo-terabits.png",

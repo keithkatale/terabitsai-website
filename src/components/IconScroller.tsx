@@ -19,7 +19,7 @@ export function IconScroller() {
     <section className="border-y border-[#D4D0C9]/[0.06] bg-[#0a0a0a] py-7">
       <div className="mx-auto max-w-4xl px-6">
         <p className="mb-5 text-center font-mono text-[11px] uppercase tracking-[0.15em] text-[#D4D0C9]/40">
-          Works with your ITSM. No rip &amp; replace.
+          Connect the software you already use — no rip &amp; replace.
         </p>
         <div className="logo-marquee-mask overflow-hidden">
           <div className="logo-marquee-track flex w-max items-center gap-3">
