@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
+import { PostHogPageView } from "@/components/PostHogPageView";
+import { PostHogProvider } from "@/components/PostHogProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -47,7 +49,12 @@ export default function RootLayout({
           src="https://datafa.st/js/script.js"
         />
       </head>
-      <body className="min-h-full bg-black font-sans flex flex-col">{children}</body>
+      <body className="min-h-full bg-black font-sans flex flex-col">
+        <PostHogProvider>
+          <PostHogPageView />
+          {children}
+        </PostHogProvider>
+      </body>
     </html>
   );
 }
