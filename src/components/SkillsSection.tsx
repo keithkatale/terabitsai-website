@@ -11,7 +11,10 @@ const fadeUp = {
   initial: { opacity: 0, y: 20 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
-  transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number] },
+  transition: {
+    duration: 0.5,
+    ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
+  },
 };
 
 export function SkillsSection() {
@@ -25,32 +28,16 @@ export function SkillsSection() {
   return (
     <section
       id="who"
-      className="relative overflow-hidden"
-      style={{
-        borderTop: "1px solid rgba(212, 208, 201, 0.08)",
-        background: "#141414",
-        padding: "112px 0",
-      }}
+      className="tb-section-glow relative overflow-hidden border-t border-white/[0.04] bg-[#0a0a0a] py-24 sm:py-28"
     >
-      <div
-        className="mx-auto flex flex-col items-center gap-14"
-        style={{ maxWidth: "1160px", padding: "0 24px" }}
-      >
-        <motion.div {...fadeUp} className="flex w-full items-end justify-between">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-12 px-4 sm:px-6">
+        <motion.div
+          {...fadeUp}
+          className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+        >
           <div className="flex flex-col gap-4">
-            <span
-              className="inline-flex w-fit items-center rounded-full px-3 py-1.5 text-xs uppercase tracking-[0.08em]"
-              style={{
-                background: "rgba(212, 208, 201, 0.1)",
-                color: "rgba(212, 208, 201, 0.6)",
-              }}
-            >
-              {personas.label}
-            </span>
-            <h2
-              className="text-[clamp(1.7rem,3.4vw,2.7rem)] font-medium leading-[1.1] tracking-[-0.02em] whitespace-pre-line"
-              style={{ color: "rgb(212, 208, 201)" }}
-            >
+            <span className="tb-chip self-start">{personas.label}</span>
+            <h2 className="max-w-2xl whitespace-pre-line text-[clamp(1.85rem,3.6vw,2.85rem)] font-medium leading-[1.05] tracking-[-0.025em] text-[rgb(225,224,204)]">
               {personas.title}
             </h2>
           </div>
@@ -58,22 +45,17 @@ export function SkillsSection() {
           <button
             type="button"
             onClick={scrollNext}
-            className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full sm:inline-flex"
-            style={{
-              border: "1px solid rgba(212, 208, 201, 0.08)",
-              background: "rgba(212, 208, 201, 0.04)",
-              color: "rgba(212, 208, 201, 0.6)",
-            }}
+            className="tb-icon-tile !h-11 !w-11 !rounded-full text-white/65 transition-colors hover:text-white"
             aria-label="Scroll to next persona"
           >
             <ArrowRight className="h-4 w-4" />
           </button>
         </motion.div>
 
-        <div className="relative w-full">
+        <div className="relative -mx-4 sm:-mx-6">
           <div
             ref={scrollRef}
-            className="flex gap-5 overflow-x-auto pb-4 scrollbar-none"
+            className="flex gap-5 overflow-x-auto px-4 pb-6 sm:px-6"
             style={{
               scrollSnapType: "x mandatory",
               scrollbarWidth: "none",
@@ -86,62 +68,45 @@ export function SkillsSection() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="relative flex shrink-0 flex-col overflow-hidden"
+                transition={{ duration: 0.45, delay: i * 0.06 }}
+                className="tb-card-elevated tb-hover-lift relative flex shrink-0 flex-col overflow-hidden p-7"
                 style={{
-                  width: "420px",
+                  width: "440px",
                   maxWidth: "85vw",
-                  borderRadius: "10px",
-                  border: "1px solid rgba(212, 208, 201, 0.06)",
-                  background:
-                    "linear-gradient(180deg, rgba(212,208,201,0.02) 0%, rgba(212,208,201,0.04) 100%)",
                   scrollSnapAlign: "start",
-                  padding: "28px",
                 }}
               >
                 <span
-                  className="pointer-events-none absolute -bottom-4 right-4 select-none font-bold leading-none"
-                  style={{
-                    fontSize: "120px",
-                    color: "rgba(255,255,255,0.02)",
-                  }}
+                  className="pointer-events-none absolute -bottom-6 right-3 select-none font-bold leading-none text-white/[0.025]"
+                  style={{ fontSize: "144px" }}
                   aria-hidden
                 >
                   {persona.letter}
                 </span>
 
-                <span
-                  className="mb-3 text-[11px] font-medium uppercase tracking-[0.08em]"
-                  style={{ color: "rgba(212, 208, 201, 0.55)" }}
-                >
+                <span className="tb-chip tb-chip-accent mb-4 self-start">
                   {persona.role}
                 </span>
-                <h3
-                  className="mb-2 text-[17px] font-medium leading-tight"
-                  style={{ color: "rgb(212, 208, 201)" }}
-                >
+
+                <h3 className="mb-2.5 text-xl font-medium leading-tight tracking-[-0.015em] text-[rgb(225,224,204)]">
                   {persona.name}
                 </h3>
-                <p
-                  className="mb-5 text-[13px] leading-relaxed"
-                  style={{ color: "rgba(212, 208, 201, 0.6)" }}
-                >
+
+                <p className="mb-6 flex-1 text-sm leading-relaxed text-white/55">
                   {persona.desc}
                 </p>
 
-                <div
-                  className="mt-auto border-t pt-4"
-                  style={{ borderColor: "rgba(212, 208, 201, 0.06)" }}
-                >
+                <div className="border-t border-white/[0.06] pt-5">
                   {persona.tasks.map((task) => (
-                    <p
+                    <div
                       key={task}
-                      className="mb-2 flex gap-2 text-[12px] leading-relaxed last:mb-0"
-                      style={{ color: "rgba(212, 208, 201, 0.55)" }}
+                      className="mb-2.5 flex items-start gap-2.5 text-[13px] leading-relaxed text-white/65 last:mb-0"
                     >
-                      <span style={{ color: "rgb(212, 208, 201)" }}>✓</span>
+                      <span className="mt-0.5 inline-grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary/20 text-[10px] font-bold text-primary">
+                        ✓
+                      </span>
                       {task}
-                    </p>
+                    </div>
                   ))}
                 </div>
               </motion.article>

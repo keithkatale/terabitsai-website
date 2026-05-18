@@ -1,8 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  /* TeraBits depth tokens (dark-adapted, inspired by keithkatale paper/3D system) */
+  --tb-surface-0: #0a0a0a;
+  --tb-surface-1: #141414;
+  --tb-surface-2: #1a1a1a;
+  --tb-surface-3: #222222;
+  --tb-bright: rgba(255, 255, 255, 0.92);
+  --tb-text: rgba(225, 224, 204, 0.88);
+  --tb-text-muted: rgba(225, 224, 204, 0.55);
+  --tb-text-dim: rgba(225, 224, 204, 0.38);
+  --tb-border: rgba(225, 224, 204, 0.08);
+  --tb-border-strong: rgba(225, 224, 204, 0.16);
+  --tb-accent: #e1e0cc;
+  --tb-accent-glow: rgba(225, 224, 204, 0.32);
+  --tb-shadow: rgba(0, 0, 0, 0.45);
+  --tb-shadow-deep: rgba(0, 0, 0, 0.65);
+
+  --tb-radius: 14px;
+  --tb-radius-lg: 18px;
+  --tb-radius-pill: 999px;
 }
 
 @theme inline {
@@ -14,27 +34,368 @@
   --font-serif: var(--font-playfair);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* Film-grain style noise (SVG turbulence), tiled */
+/* ─────────────────────────────────────────────
+   Depth + 3D utilities
+   Inspired by keithkatale's paper/neumorphic system,
+   adapted for TeraBits' dark stack.
+   ───────────────────────────────────────────── */
+
+/* Layered card with subtle inner highlight + dual-depth outer shadow */
+.tb-card {
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.022) 0%,
+    rgba(255, 255, 255, 0.005) 100%
+  );
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 12px 32px var(--tb-shadow);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease,
+    transform 0.18s ease, background 0.25s ease;
+}
+
+.tb-card-elevated {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(255, 255, 255, 0.012) 100%
+  );
+  border: 1px solid var(--tb-border-strong);
+  border-radius: var(--tb-radius-lg);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.07) inset,
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 22px 50px var(--tb-shadow),
+    0 6px 16px var(--tb-shadow-deep);
+}
+
+.tb-card-featured {
+  background: linear-gradient(
+    180deg,
+    rgba(225, 224, 204, 0.06) 0%,
+    rgba(225, 224, 204, 0.02) 100%
+  );
+  border: 1px solid rgba(225, 224, 204, 0.28);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 0 0 1px rgba(225, 224, 204, 0.08),
+    0 14px 36px rgba(225, 224, 204, 0.06),
+    0 24px 60px var(--tb-shadow-deep);
+}
+
+.tb-hover-lift {
+  transition: transform 0.18s ease, box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+.tb-hover-lift:hover {
+  transform: translateY(-3px);
+  border-color: rgba(225, 224, 204, 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 18px 44px var(--tb-shadow-deep),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Pill-shaped neumorphic chip */
+.tb-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--tb-text-muted);
+  background: linear-gradient(180deg, #1c1c1c, #131313);
+  border: 1px solid var(--tb-border);
+  border-radius: var(--tb-radius-pill);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.tb-chip-accent {
+  color: var(--tb-accent);
+  background: linear-gradient(
+    180deg,
+    rgba(225, 224, 204, 0.08),
+    rgba(225, 224, 204, 0.03)
+  );
+  border-color: rgba(225, 224, 204, 0.18);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 6px 14px rgba(225, 224, 204, 0.08);
+}
+
+/* Primary CTA — solid accent with inner highlight + outer glow */
+.tb-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0a0a0a;
+  background: linear-gradient(180deg, #f0eed7 0%, #e1e0cc 100%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--tb-radius-pill);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+    0 4px 10px rgba(225, 224, 204, 0.18),
+    0 14px 36px var(--tb-accent-glow);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.25s ease, filter 0.2s ease;
+}
+
+.tb-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.78) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+    0 6px 14px rgba(225, 224, 204, 0.22),
+    0 20px 48px var(--tb-accent-glow);
+}
+
+.tb-btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* Outline / ghost button */
+.tb-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--tb-text);
+  background: linear-gradient(180deg, #1a1a1a, #111111);
+  border: 1px solid var(--tb-border-strong);
+  border-radius: var(--tb-radius-pill);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 4px 12px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.25s ease,
+    transform 0.15s ease, color 0.2s ease;
+}
+
+.tb-btn-outline:hover {
+  color: var(--tb-bright);
+  border-color: rgba(225, 224, 204, 0.32);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 8px 22px rgba(0, 0, 0, 0.5);
+}
+
+.tb-btn-outline:active {
+  transform: scale(0.98);
+}
+
+/* Heartbeat pulse — used on key CTAs to draw attention */
+.tb-heartbeat {
+  animation: tb-heartbeat 2.6s ease-in-out infinite;
+}
+
+@keyframes tb-heartbeat {
+  0%,
+  100% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+      0 4px 10px rgba(225, 224, 204, 0.18),
+      0 14px 36px var(--tb-accent-glow);
+  }
+  20% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.78) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+      0 6px 14px rgba(225, 224, 204, 0.28),
+      0 18px 44px var(--tb-accent-glow),
+      0 0 0 6px rgba(225, 224, 204, 0.08);
+  }
+  40% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+      0 4px 10px rgba(225, 224, 204, 0.18),
+      0 14px 36px var(--tb-accent-glow);
+  }
+  56% {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.82) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.08) inset,
+      0 6px 14px rgba(225, 224, 204, 0.32),
+      0 20px 50px var(--tb-accent-glow),
+      0 0 0 8px rgba(225, 224, 204, 0.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-heartbeat {
+    animation: none;
+  }
+}
+
+/* Conic-gradient rainbow ring — use as accent flourish */
+.tb-rainbow-ring {
+  position: relative;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #7c3aed,
+    #06b6d4,
+    #f472b6,
+    #e1e0cc,
+    #7c3aed
+  );
+  animation: tb-rainbow-orbit 4s linear infinite;
+}
+
+@keyframes tb-rainbow-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-rainbow-ring {
+    animation: none;
+  }
+}
+
+/* Floating dock — glassmorphism + neumorphic combo */
+.tb-dock {
+  background: color-mix(in srgb, #0e0e0e 78%, transparent);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border: 1px solid var(--tb-border-strong);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Subtle pulse dot */
+.tb-pulse-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tb-accent);
+  box-shadow: 0 0 12px rgba(225, 224, 204, 0.6);
+}
+.tb-pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid var(--tb-accent);
+  opacity: 0.5;
+  animation: tb-ping 2s ease-out infinite;
+}
+
+@keyframes tb-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  80%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Neumorphic icon tile (for integration logos / step icons) */
+.tb-icon-tile {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1c1c1c, #121212);
+  border: 1px solid var(--tb-border);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    1px 1px 3px rgba(0, 0, 0, 0.5),
+    -1px -1px 1px rgba(255, 255, 255, 0.02);
+}
+
+/* Section ambient glow — adds light source feel to top of section */
+.tb-section-glow {
+  position: relative;
+  isolation: isolate;
+}
+.tb-section-glow::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  max-width: 90%;
+  height: 320px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(225, 224, 204, 0.05) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Number badge for steps — bevelled */
+.tb-step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tb-radius-pill);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--tb-text);
+  background: linear-gradient(180deg, #1f1f1f, #121212);
+  border: 1px solid var(--tb-border-strong);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Existing utilities */
 .noise-overlay {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   background-size: 180px 180px;
 }
 
 .logo-marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
 }
 
 .logo-marquee-track {
